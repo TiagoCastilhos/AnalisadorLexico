@@ -2,33 +2,37 @@
 
 var analyzers = new List<TokenAnalyzer>
 {
+    new AttributionTokenAnalyzer(),
+    new ReservedTokenAnalyzer(),
+    new NumbersTokenAnalyzer(),
     new OperatorsTokenAnalyzer(),
     new DelimiterTokenAnalyzer(),
-    new NumbersTokenAnalyzer(),
     new IdentifiersTokenAnalyzer()
-    //adicionar os outros analyzers
 };
 
-Console.WriteLine("Digite uma string de entrada (use espaco para separar os lexemas):");
-Console.WriteLine();
+var userInput = "1";
 
-//descomentar a linha abaixo e remover a linha onde seta entradas como uma string fixa
-//var entradas = Console.ReadLine().Split(' ');
-var entradas = "if ( a > b ) { soma = 10 }".Split(' ');
-
-foreach (var entrada in entradas)
+while (userInput == "1")
 {
-    foreach (var analyzer in analyzers)
-    {
-        var result = analyzer.Test(entrada);
+    Console.WriteLine("Digite uma string de entrada (use espaco para separar os lexemas):");
+    Console.WriteLine();
 
-        if (result != null)
+    var entries = Console.ReadLine().Split(' ');
+
+    foreach (var entry in entries)
+    {
+        foreach (var analyzer in analyzers)
         {
-            Console.WriteLine($"'{result.Lexeme}' -> {result.Token}");
-            break;
+            var result = analyzer.Test(entry);
+
+            if (result != null)
+            {
+                Console.WriteLine($"'{result.Lexeme}' -> {result.Token}");
+                break;
+            }
         }
     }
+
+    Console.WriteLine("Digite 1 para continuar ou qualquer outra tecla para sair");
+    userInput = Console.ReadLine();
 }
-
-
-Console.ReadKey();
